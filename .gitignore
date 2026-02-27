@@ -1,0 +1,21 @@
+# Data files
+*.db
+*.csv
+*.pdf
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Credentials
+config.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
