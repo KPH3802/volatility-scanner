@@ -1,8 +1,14 @@
 # Volatility Scanner
 
-**Daily volatility intelligence system that tracks IV rank, HV patterns, and term structure across equities, commodities, and sector ETFs. Surfaces actionable signals for options traders via automated email reports.**
+**Daily volatility intelligence system that tracks IV rank, HV patterns, and term structure across equities, commodities, and sector ETFs. Surfaces options trading signals via automated email reports.**
 
 Options are priced on volatility. This tool monitors the volatility landscape across 500+ instruments — stocks, volatility products, commodity ETFs, and sector ETFs — to identify when options are historically cheap or expensive, and when volatility patterns suggest a directional move is coming.
+
+---
+
+## Research Status: Monitoring Tool — No Validated Alpha Signal
+
+The IV/HV regime detection and coverage universe are fully built and operational. Backtesting of the generated signals did not produce a statistically validated standalone alpha signal. This scanner is maintained as a **market monitoring and context tool** — it surfaces volatility conditions that inform position sizing and risk management across other strategies, but does not generate direct trade entries.
 
 ---
 
@@ -66,48 +72,34 @@ main.py               # Orchestrator — daily pipeline with CLI options
 ## Setup
 
 ```bash
-# Clone the repo
 git clone https://github.com/KPH3802/volatility-scanner.git
 cd volatility-scanner
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Configure
 cp config_example.py config.py
-# Edit config.py with your API keys and email credentials
-
-# Set API keys via environment (alternative)
-export IVOLATILITY_API_KEY="your_key"
-export EMAIL_APP_PASSWORD="your_gmail_app_password"
-
-# Run the scanner
-python main.py              # Full scan: collect → analyze → email
-python main.py --dry-run    # Test without sending emails
-python main.py --collect-only   # Only collect data
-python main.py --analyze-only   # Only analyze existing data
-python main.py --status     # Show database status
-python main.py --test-api   # Test iVolatility connection
+python main.py
+python main.py --dry-run
+python main.py --collect-only
+python main.py --analyze-only
+python main.py --status
+python main.py --test-api
 ```
 
 ### Requirements
 - Python 3.8+
-- [iVolatility API](https://www.ivolatility.com/) key (free tier available for HV data)
-- Gmail account with [App Password](https://myaccount.google.com/apppasswords) for alerts
+- iVolatility API key (free tier available for HV data)
+- Gmail account with App Password for alerts
 
 ---
 
 ## Configuration
-
-Key thresholds in `config.py`:
 
 ```python
 IV_RANK_HIGH = 80           # Consider selling premium
 IV_RANK_LOW = 20            # Consider buying premium
 IVHV_OVERPRICED = 1.3       # IV 30%+ above HV
 IVHV_UNDERPRICED = 0.8      # IV 20%+ below HV
-HV_PERIODS = [10, 20, 30, 60, 90]  # Lookback windows
-IV_RANK_LOOKBACK = 252      # 1 trading year
+HV_PERIODS = [10, 20, 30, 60, 90]
+IV_RANK_LOOKBACK = 252
 ```
 
 ---
